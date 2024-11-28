@@ -31,7 +31,7 @@ pipeline:
                   name: BuildAndPushDockerRegistry_1
                   identifier: BuildAndPushDockerRegistry_1
                   spec:
-                    connectorRef: harnesstestd1
+                    connectorRef: harnesstestd
                     repo: nagabhoolaxmi/harnesstest
                     tags:
                       - "1.0"
