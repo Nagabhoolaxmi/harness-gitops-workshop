@@ -27,11 +27,34 @@ pipeline:
           execution:
             steps:
               - step:
+                  type: Run
+                  name: code complie
+                  identifier: code_complie
+                  spec:
+                    connectorRef: n2dp
+                    image: python:3.10.6-alpine
+                    shell: Sh
+                    command: python -m compileall ./
+              - step:
+                  type: Run
+                  name: create docker file
+                  identifier: create_docker_file
+                  spec:
+                    connectorRef: n2dp
+                    image: python:3.10.6-alpine
+                    shell: Sh
+                    command: |-
+                      FROM python:3.10.6-alpine
+                      WORKDIR /python-pipeline-samples
+                      ADD . /python-pipeline-samples
+                      RUN pip install -r requirements.txt
+                      CMD ["python3", "./app.py"]
+              - step:
                   type: BuildAndPushDockerRegistry
                   name: BuildAndPushDockerRegistry_1
                   identifier: BuildAndPushDockerRegistry_1
                   spec:
-                    connectorRef: harnesstestd
+                    connectorRef: n2dp
                     repo: nagabhoolaxmi/harnesstest
                     tags:
-                      - "1.0"
+                      - latest
